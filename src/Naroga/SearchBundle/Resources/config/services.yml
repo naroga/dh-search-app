@@ -1,0 +1,17 @@
+parameters:
+    elasticsearch.client:
+        base_uri: localhost:9200
+
+services:
+
+    naroga.search.engine.elasticsearch.client:
+        class: GuzzleHttp\Client
+        arguments: [ "%elasticsearch.client%" ]
+
+    naroga.search.engine.elasticsearch:
+        class: Naroga\SearchBundle\Engine\ElasticSearch
+        arguments: [ "localhost:9200", "file", "@jms_serializer", "@naroga.search.engine.elasticsearch.client"]
+
+    naroga.search:
+        class: Naroga\SearchBundle\Search\Search
+        arguments: [ "@naroga.search.engine.elasticsearch" ]

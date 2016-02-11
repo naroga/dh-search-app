@@ -1,0 +1,12 @@
+language: php
+php:
+    - 7.0
+install:
+    - composer install
+script:
+    - mkdir -p build/logs
+    - chmod 777 build/logs
+    - cp phpunit.xml.dist phpunit.xml
+    - php vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-clover build/logs/clover.xml -c phpunit.xml ./
+after_script:
+    - php vendor/bin/coveralls -v
